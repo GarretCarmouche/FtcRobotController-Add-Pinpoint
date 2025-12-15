@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -12,10 +13,13 @@ import java.util.Locale;
 @Autonomous(name="Autonomous Example", group="Linear OpMode")
 public class AutonomousExample extends LinearOpMode {
     GoBildaPinpointDriver odo;
+    DcMotorEx leftFrontDrive;
 
     @Override
     public void runOpMode() {
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
+
+
         odo.setOffsets(-84.0, -168.0, DistanceUnit.MM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
@@ -25,11 +29,13 @@ public class AutonomousExample extends LinearOpMode {
         moveForward(5);
     }
 
-    public void moveForward(int distance){
-        double startDistance = odo.getXOffset(DistanceUnit.INCH);
+    public void moveForward(double distance){
+        odo.update();
+        double startDistance = odo.getPosX(DistanceUnit.INCH);
         double movedDistance = 0;
 
         //Set motors to start moving foward
+
         while(opModeIsActive() && movedDistance < distance){
             odo.update();
             movedDistance = odo.getPosition().getX(DistanceUnit.INCH)- startDistance;
