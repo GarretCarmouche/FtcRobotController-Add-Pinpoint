@@ -19,6 +19,7 @@ public class AutonomousExample extends LinearOpMode {
     public void runOpMode() {
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
 
+        //HERE WE GO
 
         odo.setOffsets(-84.0, -168.0, DistanceUnit.MM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
